@@ -8,7 +8,7 @@ class Joke extends Component {
   }
 
   handleUpVote() {
-
+    
   }
 
   handleDownVote() {
