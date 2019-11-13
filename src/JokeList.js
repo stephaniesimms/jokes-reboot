@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import uuid from 'uuid/v4';
 import Joke from './Joke';
+import './JokeList.css';
 
 class JokeList extends Component {
   constructor(props) {
@@ -48,11 +49,35 @@ class JokeList extends Component {
     );
   }
 
+  
   render() {
     console.log(this.state)
+
+    if (this.state.loading) {
+      return (
+        <div className='loading'>
+          <i className='fas fa-4x fa-spinner fa-spin' />
+        </div>
+      )
+    }
     return (
-      <div>Hi </div>
-    )
+      <div className='JokeList'>
+        <button onClick={this.generateNewJokes}>
+          Get New Jokes
+        </button>
+      
+
+      {this.state.jokes.map(joke => (
+        <Joke 
+          key={joke.id}
+          id={joke.id}
+          text={joke.joke}
+          votes={joke.votes}
+          
+        />
+      ))}
+      </div>
+    );
   }
 }
 
