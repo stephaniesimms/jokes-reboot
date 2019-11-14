@@ -12,11 +12,14 @@ class JokeList extends Component {
       isLoading: false
     };
     this.generateNewJokes = this.generateNewJokes.bind(this);
+    this.vote = this.vote.bind(this);
   }
 
-  /* at mount, get jokes */
+  // at mount, get jokes 
   componentDidMount() {
-    if (this.state.jokes.length === 0) this.generateNewJokes();
+    if (this.state.jokes.length === 0) {
+      this.generateNewJokes();
+    }
   }
 
   // fetch jokes from API
@@ -24,6 +27,7 @@ class JokeList extends Component {
     try {
       let jokes = this.state.jokes;
 
+      // solution uses static defaultProps for num jokes to get
       while (jokes.length < 10) {
         let response = await axios.get('https://icanhazdadjoke.com', {
           headers: { Accept: 'application/json' }
@@ -41,7 +45,7 @@ class JokeList extends Component {
   // empty joke list, set isLoading to true, and then fetch jokes from API
   generateNewJokes() {
     this.setState(
-      { isLoading: true, jokes: [] }, 
+      { isLoading: true, jokes: [] },
       // second argument to .setState is a fn to call when state is set
       // this ensures user will see loading spinner while the request
       // is running
@@ -49,33 +53,43 @@ class JokeList extends Component {
     );
   }
 
-  
-  render() {
-    console.log(this.state)
+  // change vote for this joke id by val (+/- 1)
+  vote(id, val) {    
+    this.setState(st => ({
+      jokes: st.jokes.map(joke => {
+        if (joke.id === id) {
+          return { ...joke, votes: joke.votes + val }
+        }
+        return joke;
+      })
+    }));
+  }
 
+  render() {
     if (this.state.loading) {
       return (
         <div className='loading'>
           <i className='fas fa-4x fa-spinner fa-spin' />
         </div>
-      )
+      );
     }
+
     return (
       <div className='JokeList'>
         <button onClick={this.generateNewJokes}>
           Get New Jokes
         </button>
-      
 
-      {this.state.jokes.map(joke => (
-        <Joke 
-          key={joke.id}
-          id={joke.id}
-          text={joke.joke}
-          votes={joke.votes}
-          
-        />
-      ))}
+
+        {this.state.jokes.map(joke => (
+          <Joke
+            key={joke.id}
+            id={joke.id}
+            text={joke.joke}
+            votes={joke.votes}
+            vote={this.vote}
+          />
+        ))}
       </div>
     );
   }
