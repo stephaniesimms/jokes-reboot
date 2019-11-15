@@ -1,10 +1,9 @@
 import React from 'react';
-import './App.css';
 import JokeList from './JokeList';
 
 function App() {
   return (
-    <div className="App">
+    <div className="App container">
       <JokeList />
     </div>
   );

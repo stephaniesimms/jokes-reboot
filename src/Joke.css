@@ -1,0 +1,22 @@
+.Joke-text {
+  width: 500px;
+  margin-left: 1.5em;
+}
+
+@media (max-width: 800px) {
+  .Joke-text {
+    width: 350px;
+  }
+}
+
+@media (max-width: 600px) {
+  .Joke-text {
+    width: 200px;
+  }
+}
+
+@media (max-width: 420px) {
+  .Joke-text {
+    margin-left: 0;
+  }
+}

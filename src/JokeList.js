@@ -75,8 +75,8 @@ class JokeList extends Component {
     }
 
     return (
-      <div className='JokeList'>
-        <button onClick={this.generateNewJokes}>
+      <div className='JokeList mt-3'>
+        <button className="Joke-button btn btn-secondary mb-3" onClick={this.generateNewJokes}>
           Get New Jokes
         </button>
 

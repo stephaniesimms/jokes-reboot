@@ -1,1 +1,7 @@
 @import url("https://use.fontawesome.com/releases/v5.3.1/css/all.css");
+
+@media (max-width: 420px) {
+  .JokeList {
+    text-align: center;
+  }
+}

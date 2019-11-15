@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './Joke.css';
 
 class Joke extends Component {
   constructor(props) {
@@ -19,13 +20,13 @@ class Joke extends Component {
     const { text, votes } = this.props;
 
     return (
-      <div className='Joke'>
-        <div className='Joke-voting'>
-          <button onClick={this.handleUpVote}>
+      <div className='Joke my-3'>
+        <div className='Joke-voting d-inline-block align-top'>
+          <button className="btn btn-info mr-1" onClick={this.handleUpVote}>
             <i className="fas fa-thumbs-up" />
           </button>
 
-          <button onClick={this.handleDownVote}>
+          <button className="btn btn-danger mr-2" onClick={this.handleDownVote}>
             <i className="fas fa-thumbs-down" />
           </button>
 
@@ -33,7 +34,7 @@ class Joke extends Component {
 
         </div>
 
-        <div className='Joke-text'>
+        <div className='Joke-text d-inline-block align-center'>
           {text}
         </div>
       </div>
