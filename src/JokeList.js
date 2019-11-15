@@ -23,10 +23,11 @@ class JokeList extends Component {
   }
 
   // fetch jokes from API
+  // use a Set to make sure there are no duplicates
   async fetchJokes() {
     try {
       let jokes = this.state.jokes;
-
+      let duplicateJokes = new Set();
       // solution uses static defaultProps for num jokes to get
       while (jokes.length < 10) {
         let response = await axios.get('https://icanhazdadjoke.com', {
@@ -34,7 +35,10 @@ class JokeList extends Component {
         });
         let joke = response.data.joke;
 
-        jokes.push({ joke: joke, id: uuid(), votes: 0 })
+        if (!duplicateJokes.has(joke)) {
+          duplicateJokes.add(joke);
+          jokes.push({ joke: joke, id: uuid(), votes: 0 })
+        }
       }
       this.setState({ jokes: jokes, isLoading: false })
     } catch (err) {
@@ -68,7 +72,7 @@ class JokeList extends Component {
   render() {
     if (this.state.loading) {
       return (
-        <div className='loading'>
+        <div className='loading mt-3 text-center'>
           <i className='fas fa-4x fa-spinner fa-spin' />
         </div>
       );
