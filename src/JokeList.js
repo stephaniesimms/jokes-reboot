@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import ls from 'local-storage';
 import uuid from 'uuid/v4';
 import Joke from './Joke';
 import './JokeList.css';
@@ -8,7 +9,7 @@ class JokeList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      jokes: [],
+      jokes: ls.get('jokes') || [],
       isLoading: false
     };
     this.generateNewJokes = this.generateNewJokes.bind(this);
@@ -41,7 +42,8 @@ class JokeList extends Component {
           jokes.push({ joke: joke, id: uuid(), votes: 0 })
         }
       }
-      this.setState({ jokes: jokes, isLoading: false })
+      this.setState({ jokes: jokes, isLoading: false });
+      ls.set('jokes', jokes);
     } catch (err) {
       console.log(err);
     }
@@ -60,14 +62,14 @@ class JokeList extends Component {
 
   // change vote for this joke id by val (+/- 1)
   vote(id, val) {    
-    this.setState(st => ({
-      jokes: st.jokes.map(joke => {
-        if (joke.id === id) {
-          return { ...joke, votes: joke.votes + val }
-        }
-        return joke;
-      })
-    }));
+    let updatedJokes = this.state.jokes.map(joke => {
+      if (joke.id === id) {
+        return { ...joke, votes: joke.votes + val }
+      }
+      return joke;
+    });
+    this.setState({ jokes: updatedJokes });
+    ls.set('jokes', updatedJokes);
   }
 
   sortJokesScore() {
