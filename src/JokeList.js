@@ -13,6 +13,7 @@ class JokeList extends Component {
     };
     this.generateNewJokes = this.generateNewJokes.bind(this);
     this.vote = this.vote.bind(this);
+    this.sortJokesScore = this.sortJokesScore.bind(this);
   }
 
   // at mount, get jokes 
@@ -69,6 +70,11 @@ class JokeList extends Component {
     }));
   }
 
+  sortJokesScore() {
+    let jokes = this.state.jokes;
+    return jokes.sort((a, b) => (b.votes - a.votes));
+  }
+
   render() {
     if (this.state.loading) {
       return (
@@ -78,6 +84,8 @@ class JokeList extends Component {
       );
     }
 
+    let sortedJokes = this.sortJokesScore(this.state.jokes);
+
     return (
       <div className='JokeList mt-3'>
         <button className="Joke-button btn btn-secondary mb-3" onClick={this.generateNewJokes}>
@@ -85,7 +93,7 @@ class JokeList extends Component {
         </button>
 
 
-        {this.state.jokes.map(joke => (
+        {sortedJokes.map(joke => (
           <Joke
             key={joke.id}
             id={joke.id}
